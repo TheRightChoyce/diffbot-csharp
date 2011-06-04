@@ -37,24 +37,23 @@ namespace DiffBot
 		/// <summary>
 		/// Root url for the DiffBot API (optional; defaults to http://www.diffbot.com/api/)
 		/// </summary>
-		private static string API = "http://www.diffbot.com/api/"; 
-			//ConfigurationManager.AppSettings["DiffBotAPI_Url"] == null ? 
-			//ConfigurationManager.AppSettings["DiffBotAPI_Url"]
-			//: "http://www.diffbot.com/api/";
+		private static string API = ConfigurationManager.AppSettings["DiffBotAPI_Url"] == null
+			? "http://www.diffbot.com/api/"
+			: ConfigurationManager.AppSettings["DiffBotAPI_Url"];
 
 		/// <summary>
 		/// Whether or not to return the results in html format (optional; defaults to false)
 		/// </summary>
 		private static bool UseHtml = ConfigurationManager.AppSettings["DiffBotAPI_UseHtml"] == null
-			? Convert.ToBoolean(ConfigurationManager.AppSettings["DiffBotAPI_UseHtml"])
-			: false;
+			? false
+			: Convert.ToBoolean(ConfigurationManager.AppSettings["DiffBotAPI_UseHtml"]);
 
 		/// <summary>
 		/// Set this to true if you want to try and do a simple html title parse if the diffbot API fails (optional; defaults to false)
 		/// </summary>
 		private bool UseWebClientFallback = ConfigurationManager.AppSettings["DiffBotAPI_UseWebClientFallback"] == null
-			? Convert.ToBoolean( ConfigurationManager.AppSettings["DiffBotAPI_UseWebClientFallback"] )
-			: false;
+			? false
+			: Convert.ToBoolean( ConfigurationManager.AppSettings["DiffBotAPI_UseWebClientFallback"] );
 
 		#endregion
 
@@ -170,6 +169,47 @@ namespace DiffBot
 		}
 		#endregion
 
+		#region Fallback helpers
+
+		/// <summary>
+		/// This grabs the raw URL and returns it in string form.
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		protected string DownloadUrlAsString( string url )
+		{
+			try
+			{
+				return new WebClient( ).DownloadString( url );
+			}
+			catch
+			{
+				return "";
+			}
+		}
+
+		/// <summary>
+		/// Returns a page's title element from a raw html string
+		/// </summary>
+		/// <param name="html"></param>
+		/// <returns></returns>
+		protected string GetTitleFromHtmlString( string html )
+		{
+			return Regex.Match( html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase ).Groups["Title"].Value;
+		}
+
+		/// <summary>
+		/// Not yet implemented
+		/// </summary>
+		/// <param name="html"></param>
+		/// <returns></returns>
+		protected string GetBodyFromHtmlString( string html )
+		{
+			return "";
+		}
+
+		#endregion
+
 		#region Article related
 		/// <summary>
 		/// Parse out an article by URL and return a strongly typed object
@@ -190,15 +230,10 @@ namespace DiffBot
 			}
 			catch // if it fails, try using a backup regex
 			{
-				try
+				var html = DownloadUrlAsString( url );
+				if (!string.IsNullOrWhiteSpace( url ))
 				{
-					WebClient web = new WebClient( );
-					model.title = Regex.Match( web.DownloadString( url ), @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase ).Groups["Title"].Value;
-					// TODO: RegEx for Body?
-				}
-				catch
-				{
-					// if this fails, then nothing we can do
+					model.title = GetTitleFromHtmlString( html );
 				}
 			}
 
@@ -212,11 +247,21 @@ namespace DiffBot
 		public DiffBotFrontpageResultModel Frontpage( string url, bool useHtml = false )
 		{
 			var model = new DiffBotFrontpageResultModel( );
+			System.Uri uri;
+			try
+			{
+				uri = new System.Uri( url );
+			}
+			catch
+			{
+				return model; // not a valid url
+			}
+
 			XDocument xml = new XDocument( );
 			try
 			{
 				var source = new WebClient( ).OpenRead(
-					GetEndpointUrl( EndPoints.FrontPage, url, useHtml )
+					GetEndpointUrl( EndPoints.FrontPage, uri.AbsoluteUri, useHtml )
 				);
 				xml = XDocument.Load( source );
 			}
@@ -230,12 +275,40 @@ namespace DiffBot
 
 			var info = xml.Element( "dml" ).Element( "info" );
 
+			#region Title
 			var titleEl = info.Element( "title" );
 			if (titleEl != null)
 				model.title = titleEl.Value;
+			else if (UseWebClientFallback)
+			{
+				var html = DownloadUrlAsString( uri.AbsoluteUri );
+				if (!string.IsNullOrWhiteSpace( html ))
+					model.title = GetTitleFromHtmlString( html );
+			}
+			#endregion
+
+			#region Icon
 			var iconEl = info.Element( "icon" );
 			if (iconEl != null)
 				model.icon = iconEl.Value;
+			else if (UseWebClientFallback) // I've found diffbot doesn't always process favicon.ico files for some reason
+			{
+				var host = uri.Scheme + "://" + uri.Host;
+				WebRequest request = WebRequest.Create( new Uri( host + "/favicon.ico" ) );
+				request.Method = "HEAD";
+				try
+				{
+					WebResponse response = request.GetResponse( );
+
+					if (response.ContentLength > 0) // if there's something there, then let's go ahead and use it
+						model.icon = host + "/favicon.ico";
+				}
+				catch
+				{
+					model.icon = ""; // looks like we got a 404
+				}
+			}
+			#endregion
 
 			return model;
 		}

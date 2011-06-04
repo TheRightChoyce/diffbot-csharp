@@ -35,11 +35,12 @@ namespace DiffBot
 		private static string APIToken = ConfigurationManager.AppSettings["DiffBotAPI_Token"];
 		
 		/// <summary>
-		/// Root url for the DiffBot API (option; defaults to http://www.diffbot.com/api/)
+		/// Root url for the DiffBot API (optional; defaults to http://www.diffbot.com/api/)
 		/// </summary>
-		private static string API = ConfigurationManager.AppSettings["DiffBotAPI_Url"] == null ? 
-			ConfigurationManager.AppSettings["DiffBotAPI_Url"]
-			: "http://www.diffbot.com/api/";
+		private static string API = "http://www.diffbot.com/api/"; 
+			//ConfigurationManager.AppSettings["DiffBotAPI_Url"] == null ? 
+			//ConfigurationManager.AppSettings["DiffBotAPI_Url"]
+			//: "http://www.diffbot.com/api/";
 
 		/// <summary>
 		/// Whether or not to return the results in html format (optional; defaults to false)

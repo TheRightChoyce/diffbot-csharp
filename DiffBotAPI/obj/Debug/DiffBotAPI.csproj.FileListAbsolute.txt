@@ -1,5 +1,0 @@
-D:\websites\DiffBot\DiffBotAPI\bin\Debug\DiffBotAPI.dll
-D:\websites\DiffBot\DiffBotAPI\bin\Debug\DiffBotAPI.pdb
-D:\websites\DiffBot\DiffBotAPI\obj\Debug\ResolveAssemblyReference.cache
-D:\websites\DiffBot\DiffBotAPI\obj\Debug\DiffBotAPI.dll
-D:\websites\DiffBot\DiffBotAPI\obj\Debug\DiffBotAPI.pdb

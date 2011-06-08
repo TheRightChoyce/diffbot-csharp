@@ -3,7 +3,7 @@ This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/).
 I developed this as a plugin for Radar (http://radar.cx): a to-do list for your social/personal life. I wanted to use the diffbot functionality to bring a more meta-data and context to any item (blip) which had a url bundled with it.
 
 Basic documentation:
-There are 4 application config options, with the only one being required is the Token:
+There are 4 application config options, with 'DiffBotAPI_Token' being the only required option
 
 <!-- Diffbot API Config -->
 <add key="DiffBotAPI_UseHtml" value="false" />

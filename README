@@ -1,3 +1,23 @@
 This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/)
 
-Documentation and examples are coming
+This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/).
+
+I developed this for use with my new site: http://radar.cx. The is that's a to-do list for your social/personal life and I wanted to use the diffbot functionality to help being a little more meta-data and context to any item which had a url bundled with it.
+
+Basic documentation:
+There are 4 application config options, with the only one being required is the Token:
+
+<!-- Diffbot API Config -->
+<add key="DiffBotAPI_UseHtml" value="false" />
+<add key="DiffBotAPI_Token" value="YOUR_TOKEN" />
+<add key="DiffBotAPI_UseWebClientFallback" value="true" />
+<add key="DiffBotAPI_Url" value="http://www.diffbot.com/api/" />
+
+Each is explained in the config region of the code.
+
+
+To get an article, simply call the following:
+
+var api = new DiffBotAPI();
+var article = api.Article( "http://radar.cx" );
+

@@ -1,5 +1,3 @@
-This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/)
-
 This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/).
 
 I developed this for use with my new site: http://radar.cx. The is that's a to-do list for your social/personal life and I wanted to use the diffbot functionality to help being a little more meta-data and context to any item which had a url bundled with it.

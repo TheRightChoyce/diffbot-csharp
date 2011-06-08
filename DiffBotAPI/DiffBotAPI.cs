@@ -219,6 +219,9 @@ namespace DiffBot
 		public DiffBotArticleResultModel Article( string url, bool useHtml = false )
 		{
 			var model = new DiffBotArticleResultModel( );
+			if (string.IsNullOrWhiteSpace( url )) // no need to waste cycles on an empty url
+				return model;
+
 			try
 			{
 				var source = new WebClient( ).DownloadString(
@@ -247,6 +250,10 @@ namespace DiffBot
 		public DiffBotFrontpageResultModel Frontpage( string url, bool useHtml = false )
 		{
 			var model = new DiffBotFrontpageResultModel( );
+
+			if (string.IsNullOrWhiteSpace( url )) // no need to waste cycles on an empty url
+				return model;
+
 			System.Uri uri;
 			try
 			{

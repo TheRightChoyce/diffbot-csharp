@@ -43,7 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiffbotAPI-FrontPage.cs" />
+    <Compile Include="DiffbotAPI-Article.cs" />
     <Compile Include="DiffBotAPI.cs" />
+    <Compile Include="Extensions\ArticleGetPreview.cs" />
+    <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\Frontpage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

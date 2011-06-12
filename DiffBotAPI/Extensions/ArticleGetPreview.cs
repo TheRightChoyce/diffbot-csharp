@@ -21,11 +21,15 @@ namespace DiffBot
 			// check for videos
 			if (article.media.Count > 0)
 			{
-				foreach( var media in article.media)
+				foreach( var media in article.media )
 				{
-					if (media.type == "video" && media.primary || article.media.Count == 1 )
+					if ( string.IsNullOrEmpty(description)
+						&& media.type == "video" 
+						&& (media.primary || article.media.Count == 1 )
+					)
 					{
 						description = string.Format( VideoYouTubeTemplate, media.link );
+						continue;
 					}
 				}
 			}

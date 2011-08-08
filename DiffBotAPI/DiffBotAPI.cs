@@ -19,7 +19,7 @@ namespace DiffBot
 		/// <summary>
 		/// List of all the various end points available to us
 		/// </summary>
-		private static class EndPoints
+		public static class EndPoints
 		{
 			public const string Article = "article";
 			public const string FrontPage = "frontpage";
@@ -65,7 +65,7 @@ namespace DiffBot
 		/// <param name="type"></param>
 		/// <param name="url"></param>
 		/// <returns></returns>
-		private string GetEndpointUrl( string type, string url, bool useHtml = false )
+		public string GetEndpointUrl( string type, string url, bool useHtml = false )
 		{
 			return string.Format
 			(

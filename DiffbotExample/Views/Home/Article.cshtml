@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Frontpage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script language="javascript" type="text/javascript">
+	$(document).ready(function ()
+	{
+		$('#submit').bind("click", function (e)
+		{
+			$.post
+			(
+				"./Article",
+				{
+					url: $('#url').val(),
+					html: $('#html').is(':checked')
+				},
+				function (result)
+				{
+					$('#articleResult').show();
+
+					$('#icon').html(result.icon);
+					$('#title').html(result.title);
+					$('#date').html(result.date);
+					$('#tags').html(result.tags);
+					$('#text').text(result.text);
+
+					if (result.media) {
+						for (var count = 0; count < result.media.length; count++) {
+							var item = result.media[count]
+							$('#media').append('<br/>' + item.link + ' (primary? ' + item.primary + ', type: ' + item.type + ')');
+						}
+					}
+
+				}
+			);
+			return false;
+		});
+	});
+</script>
+<h2>Article Example:</h2>
+
+<form action="./Article" target="_top" method="post">
+	<input type="text" name="url" id="url" style="width:500px" value="http://www.huffingtonpost.com/2011/03/04/frozen-smoke-energy-storage_n_830894.html" /><br />
+	<label for="html"><input type="checkbox" name="html" id="html" value="true" />Return as Html?</label><br />
+	<input type="submit" value="Submit" id="submit" class="submit" />
+</form>
+
+<div id="articleResult" style="display:none;">
+	<div>icon:  <span id="icon"></span></div>
+	<div>title:  <span id="title"></span></div>
+	<div>date:  <span id="date"></span></div>
+	<div>tags:  <span id="tags"></span></div>
+	<div>text:  <span id="text"></span></div>
+	<div>media:  <span id="media"></span></div>
+</div>

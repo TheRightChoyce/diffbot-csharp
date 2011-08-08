@@ -1,0 +1,7 @@
+D:\websites\DiffBot\DiffbotExample\bin\DiffbotExample.dll
+D:\websites\DiffBot\DiffbotExample\bin\DiffbotExample.pdb
+D:\websites\DiffBot\DiffbotExample\bin\DiffBotAPI.dll
+D:\websites\DiffBot\DiffbotExample\bin\DiffBotAPI.pdb
+D:\websites\DiffBot\DiffbotExample\obj\Debug\ResolveAssemblyReference.cache
+D:\websites\DiffBot\DiffbotExample\obj\Debug\DiffbotExample.dll
+D:\websites\DiffBot\DiffbotExample\obj\Debug\DiffbotExample.pdb

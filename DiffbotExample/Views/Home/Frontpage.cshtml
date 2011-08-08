@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Frontpage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Frontpage Example:</h2>
+
+<form action="./FrontpageJson" target="_top">
+	<input type="text" name="url" style="width:500px" /><br />
+	<label for="html"><input type="checkbox" name="html" id="html" value="true" />Return as Html?</label><br />
+	<input type="submit" value="Submit" />
+</form>

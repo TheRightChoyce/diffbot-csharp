@@ -119,7 +119,7 @@ namespace DiffBot
 		{
 			try
 			{
-				return new WebClient( ).DownloadString( url );
+				return GetWebClient().DownloadString( url );
 			}
 			catch
 			{

@@ -1,6 +1,6 @@
 This is a basic C# wrapper for the Diffbot API (http://www.diffbot.com/).
 
-I developed this as a plugin for Radar (http://radar.cx): a to-do list for your social/personal life. I wanted to use the diffbot functionality to bring a more meta-data and context to any item (blip) which had a url bundled with it.
+I developed this as a plugin for Pistashio (http://pistash.io): The easiest way to save and organize your interests from anywhere. I wanted to use the diffbot functionality to bring a more meta-data and context to any item bundled with a url.
 
 Basic documentation:
 There are 4 application config options, with 'DiffBotAPI_Token' being the only required option
@@ -13,9 +13,8 @@ There are 4 application config options, with 'DiffBotAPI_Token' being the only r
 
 Each is explained in the config region of the code.
 
-
 To get an article, simply call the following:
 
 var api = new DiffBotAPI();
-var article = api.Article( "http://radar.cx" );
+var article = api.Article( "http://pistash.io" );
 

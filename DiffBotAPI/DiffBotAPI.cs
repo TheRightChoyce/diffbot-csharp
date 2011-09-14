@@ -99,6 +99,13 @@ namespace DiffBot
 			}
 			return true;
 		}
+
+		private WebClient GetWebClient( )
+		{
+			var client = new WebClient( );
+			client.Encoding = System.Text.Encoding.UTF8;
+			return client;
+		}
 		#endregion
 
 		#region Fallback helpers

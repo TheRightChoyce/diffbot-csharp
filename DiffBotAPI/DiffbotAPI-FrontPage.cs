@@ -28,8 +28,8 @@ namespace DiffBot
 
 			XDocument xml = new XDocument( );
 			try
-			{
-				var source = new WebClient( ).OpenRead(
+			{				
+				var source = GetWebClient().DownloadString(
 					GetEndpointUrl( EndPoints.FrontPage, uri.AbsoluteUri, useHtml )
 				);
 				xml = XDocument.Load( source );

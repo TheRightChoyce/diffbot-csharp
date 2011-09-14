@@ -27,7 +27,7 @@ namespace DiffBot
 
 			try
 			{
-				var source = new WebClient( ).DownloadString(
+				var source = GetWebClient().DownloadString(
 					GetEndpointUrl( EndPoints.Article, url, useHtml )
 				);
 
